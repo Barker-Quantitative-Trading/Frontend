@@ -105,6 +105,7 @@ Frontend is deployed by default with **Vercel** for Next.js projects. This may b
 - **Deployment:** Vercel.  
 
 ### Guidelines
+
 - Try to use mainly `.ts` or `.tsx` files rather than JavaScript.
 ---
 
