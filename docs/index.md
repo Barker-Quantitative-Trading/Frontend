@@ -6,7 +6,7 @@ Welcome to the documentation for this project. Use this index to navigate throug
 
 ## 📚 Getting Started
 
-* [README](../README.md)
+* Read through the README.md
 
 ---
 
