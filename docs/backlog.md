@@ -1,5 +1,6 @@
 # Future Issues
 - User profile
+   - Notifications
 - Login/Register
 - Scanner page for symbols based on indicators and such
 - Comparison tools to other tickers
