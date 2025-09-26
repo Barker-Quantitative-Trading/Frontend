@@ -7,6 +7,7 @@ Welcome to the documentation for this project. Use this index to navigate throug
 ## 📚 Getting Started
 
 * Read through the README.md
+* [Backlog](backlog.md)
 
 ---
 
