@@ -1,0 +1,1 @@
+plan to have stores that communicate with the database and store data 

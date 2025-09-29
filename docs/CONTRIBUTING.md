@@ -23,15 +23,13 @@ Please follow these steps to keep our workflow clean and consistent.
 4. **Commit and push** - 
     Make small, focused commits with clear messages.
     - git add .
-    - git commit -m "Add feature: backtest strategy with momentum rules"
-    - git push origin feature/short-description
-    - It may say "To push the current branch and set the remote as upstream, use 
-    git push --set-upstream origin feature_branch_name"
+    - git commit -m "Add feature: backtest strategy wi==
         - You need to do this when you first push.
 
 5. **Submit a pull request(PR)** 
+    - Run `yarn lint` and make sure it passes then do step 4.
     - Go to the repository on GitHub.
-    - Switch to your branch.
+    - Switch to your branch.==
     - Click "New Pull Request".
     - Select your branch to merge into main.
     - In your PR description, explain: 
