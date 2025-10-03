@@ -1,0 +1,2 @@
+plan to have stores that communicate with the database and store data 
+we will want a few different hooks to section data

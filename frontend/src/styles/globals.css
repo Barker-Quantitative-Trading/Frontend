@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --drawer-width: 240px;
+}
+
+/* theme variables are provided via layout fonts; removed unsupported at-rule */
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --drawer-width: 240px;
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #ffffff;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+  padding-left: var(--drawer-width);
+}

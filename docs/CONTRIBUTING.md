@@ -30,6 +30,7 @@ Please follow these steps to keep our workflow clean and consistent.
         - You need to do this when you first push.
 
 5. **Submit a pull request(PR)** 
+    - Run `yarn lint` and make sure it passes then do step 4.
     - Go to the repository on GitHub.
     - Switch to your branch.
     - Click "New Pull Request".
