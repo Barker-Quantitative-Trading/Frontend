@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { CandleData } from "@/widgets/Chart";
 
-export default function useDynamicCandles() {
+export default function useDynamicCandles(paused = false) {
   // Start with some initial candles
   const [candles, setCandles] = useState<CandleData[]>([
     { time: '2023-10-01', open: 100, high: 110, low: 90, close: 105 },
@@ -14,6 +14,7 @@ export default function useDynamicCandles() {
   // Dynamically add new candles
   useEffect(() => {
     const interval = setInterval(() => {
+      if (paused) return; // do nothing if paused
       setCandles(prev => {
         const last = prev[prev.length - 1];
 
@@ -45,7 +46,7 @@ export default function useDynamicCandles() {
     }, 50);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [paused]);
 
   return candles;
 }
