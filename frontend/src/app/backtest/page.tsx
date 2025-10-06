@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Chart from "@/widgets/Chart";
 import News from "../../widgets/News";
 import Orderbook from "../../widgets/Orderbook";
 

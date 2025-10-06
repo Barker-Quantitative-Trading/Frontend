@@ -83,7 +83,7 @@ export const Chart: React.FC<ChartWidgetProps> = ({
       window.removeEventListener('resize', handleResize);
       chart.remove();
     };
-  }, [theme.palette.mode]); // Rebuild chart when theme mode changes
+  }, [candles, height, theme.palette, width]); // Rebuild chart when theme mode changes
 
   // Update series on data change
   useEffect(() => {

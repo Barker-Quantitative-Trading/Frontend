@@ -15,6 +15,7 @@ export default function useDynamicCandles(paused = false) {
   useEffect(() => {
     const interval = setInterval(() => {
       if (paused) return; // do nothing if paused
+      
       setCandles(prev => {
         const last = prev[prev.length - 1];
 
