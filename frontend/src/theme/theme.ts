@@ -19,7 +19,7 @@ export const darkTheme = createTheme({
     mode: "dark",
     primary: { main: "#90caf9" },
     secondary: { main: "#ce93d8" },
-    background: { default: "#121212", paper: "#1e1e1e" },
+    background: { default: "#0f111a", paper: "#0f111a" }, // 0f111a 121212 1e1e1e
     text: { primary: "#ffffff", secondary: "#bbbbbb" },
   },
   typography: {

@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useRef } from 'react';
+import { useTheme } from '@mui/material/styles';
 import {
   createChart,
   ColorType,
@@ -34,29 +35,37 @@ export const Chart: React.FC<ChartWidgetProps> = ({
   const chartInstance = useRef<IChartApi>(null);
   const candleSeriesRef = useRef<ISeriesApi<'Candlestick'>>(null);
 
+  const theme = useTheme();
+
   useEffect(() => {
     if (!chartRef.current) return;
+
+    // Use theme.palette to get colors
+    const isDark = theme.palette.mode === 'dark';
+    const background = theme.palette.background.default;
+    const textColor = theme.palette.text.primary;
+    const gridColor = isDark ? '#2a2d3e' : '#ccc';
+    const upColor = isDark ? candleUpColor : '#2e7d32';
+    const downColor = isDark ? candleDownColor : '#c62828';
 
     const chart = createChart(chartRef.current, {
       width,
       height,
       layout: {
-        background: { type: ColorType.Solid, color: '#0f111a' },
-        textColor: '#d1d4dc',
+        background: { type: ColorType.Solid, color: background },
+        textColor: textColor,
       },
       grid: {
-        vertLines: { color: '#2a2d3e' },
-        horzLines: { color: '#2a2d3e' },
+        vertLines: { color: gridColor },
+        horzLines: { color: gridColor },
       },
-      crosshair: {
-        mode: 1,
-      },
+      crosshair: { mode: 1 },
     });
     chartInstance.current = chart;
 
     const candleSeries = chart.addSeries(CandlestickSeries, {
-      upColor: candleUpColor,
-      downColor: candleDownColor,
+      upColor,
+      downColor,
       borderVisible: false,
       wickUpColor,
       wickDownColor,
@@ -64,7 +73,7 @@ export const Chart: React.FC<ChartWidgetProps> = ({
     candleSeriesRef.current = candleSeries;
     candleSeries.setData(candles);
 
-    // Resize handling
+    // Resize
     const handleResize = () => {
       chart.applyOptions({ width: chartRef.current!.clientWidth });
     };
@@ -74,7 +83,7 @@ export const Chart: React.FC<ChartWidgetProps> = ({
       window.removeEventListener('resize', handleResize);
       chart.remove();
     };
-  }, []);
+  }, [theme.palette.mode]); // Rebuild chart when theme mode changes
 
   // Update series on data change
   useEffect(() => {
