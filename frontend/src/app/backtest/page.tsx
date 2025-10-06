@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Chart from "../../widgets/Chart";
+import Chart from "@/widgets/Chart";
 import News from "../../widgets/News";
 import Orderbook from "../../widgets/Orderbook";
 
@@ -120,7 +120,7 @@ export default function Home() {
             <Typography variant="h6" gutterBottom>
               Price Chart
             </Typography>
-            <Chart symbol={backtest?.symbol ?? "AAPL"} />
+            {/* <Chart symbol={backtest?.symbol ?? "AAPL"} /> */}
             {backtest && <BacktestSummary backtest={backtest} />}
           </CardContent>
         </Card>
