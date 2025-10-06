@@ -8,7 +8,7 @@ import dynamic from 'next/dynamic';
 const Sidebar = dynamic(() => import('@/components/Sidebar'), { ssr: false });
 
 export default function Client({ children }: { children: React.ReactNode }) {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
