@@ -18,6 +18,7 @@ declare module '@mui/material/styles' {
 
       areaTop: string;
       areaBottom: string;
+      baseLineColor: string;
       baselineTop: string;
       baselineBottom: string;
       bar: string;
@@ -39,6 +40,7 @@ declare module '@mui/material/styles' {
 
       areaTop: string;
       areaBottom: string;
+      baseLineColor: string;
       baselineTop: string;
       baselineBottom: string;
       bar: string;
@@ -84,6 +86,7 @@ export const lightTheme = createTheme({
 
     areaTop: areaTopColor,
     areaBottom: areaBottomColor,
+    baseLineColor: '#B2B5BE',
     baselineTop: baselineTopColor,
     baselineBottom: baselineBottomColor,
     bar: barColor,
@@ -115,6 +118,7 @@ export const darkTheme = createTheme({
     text: '#ffffff',
     areaTop: areaTopColor,
     areaBottom: areaBottomColor,
+    baseLineColor: '#555',
     baselineTop: baselineTopColor,
     baselineBottom: baselineBottomColor,
     bar: barColor,

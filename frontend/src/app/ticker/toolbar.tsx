@@ -56,6 +56,8 @@ const Toolbar: React.FC<ChartToolbarProps> = ({
           <ToggleButton value="Candlestick">Candlestick</ToggleButton>
           <ToggleButton value="Line">Line</ToggleButton>
           <ToggleButton value="Area">Area</ToggleButton>
+          <ToggleButton value="Baseline">Baseline</ToggleButton>
+          <ToggleButton value="Histogram">Histogram</ToggleButton>
         </ToggleButtonGroup>
         <IconButton onClick={handleMenuOpen}>
           <MoreVertIcon />
@@ -80,7 +82,7 @@ const Toolbar: React.FC<ChartToolbarProps> = ({
 
           <Divider />
 
-        {(["Bar", "Candlestick", "Line", "Area"] as ChartType[]).map(
+        {(["Bar", "Candlestick", "Line", "Area", "Baseline", "Histogram"] as ChartType[]).map(
             (type) => (
               <MenuItem
                 key={type}

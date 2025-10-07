@@ -8,7 +8,7 @@ import Toolbar from "./toolbar";
 
 const TickerPage = () => {
   const [paused, setPaused] = useState(false);
-  const [chartType, setChartType] = useState<ChartType>("Line");
+  const [chartType, setChartType] = useState<ChartType>("Baseline");
   const {data: seriesData, resetSeriesData } = useMockSeriesData(chartType, paused);
   const symbol = "Test";
 

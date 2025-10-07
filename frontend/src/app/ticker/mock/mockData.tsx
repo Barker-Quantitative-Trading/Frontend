@@ -13,16 +13,22 @@ function addDays(date: BusinessDay, days: number): BusinessDay {
 function generateInitialData(chartType: ChartType): SeriesData[] {
   const start: BusinessDay = { year: 2023, month: 10, day: 1 };
   const points = [];
+  let lastBase = 100; // starting price
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 500; i++) {
     const time = addDays(start, i);
-    const base = 100 + Math.sin(i / 5) * 10 + Math.random() * 2;
+
+    // small random walk step
+    const change = (Math.random() - 0.5) * 2; // ±1 unit per step
+    const base = lastBase + change;
+    lastBase = base;
 
     if (chartType === "Bar" || chartType === "Candlestick") {
-      const open = base + Math.random() * 2 - 1;
-      const close = base + Math.random() * 2 - 1;
-      const high = Math.max(open, close) + Math.random() * 2;
-      const low = Math.min(open, close) - Math.random() * 2;
+      const open = base + (Math.random() - 0.5) * 1; // small variation
+      const close = base + (Math.random() - 0.5) * 1;
+      const high = Math.max(open, close) + Math.random(); // small high spike
+      const low = Math.min(open, close) - Math.random(); // small low dip
+
       points.push({ time, open, high, low, close });
     } else {
       points.push({ time, value: base });
