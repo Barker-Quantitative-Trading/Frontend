@@ -1,46 +1,56 @@
 "use client";
 
 import React, { useState } from "react";
-import { Grid, Card, CardContent, Typography, Button } from "@mui/material";
-import { Chart } from "@/widgets/Chart";
-import useMockCandleData from "./mockCandleData";
+import { Grid, Card, CardContent, Typography } from "@mui/material";
+import { Chart, ChartType } from "@/widgets/Chart";
+import useMockSeriesData from "./mock/mockData";
+import Toolbar from "./toolbar";
 
 const TickerPage = () => {
-  const [paused, setPaused] = useState(false); // pause state
-  const candles = useMockCandleData(paused);   // pass pause to hook
+  const [paused, setPaused] = useState(false);
+  const [chartType, setChartType] = useState<ChartType>("Line");
+  const {data: seriesData, resetSeriesData } = useMockSeriesData(chartType, paused);
   const symbol = "Test";
-  
+
+  const handleChartTypeChange = (newType: ChartType) => {
+    setChartType(newType);
+    resetSeriesData(newType);
+  };
+
   // Compute last candle info for side panel
-  const last = candles[candles.length - 1];
-  const ohlc = last
-    ? { open: last.open, high: last.high, low: last.low, close: last.close }
-    : { open: 0, high: 0, low: 0, close: 0 };
+  const lastPoint = seriesData[0]?.data?.at(-1);
+  const ohlc =
+    lastPoint && "open" in lastPoint
+      ? {
+          open: lastPoint.open,
+          high: lastPoint.high,
+          low: lastPoint.low,
+          close: lastPoint.close,
+        }
+      : lastPoint && "value" in lastPoint
+      ? {
+          open: lastPoint.value,
+          high: lastPoint.value,
+          low: lastPoint.value,
+          close: lastPoint.value,
+        }
+      : { open: 0, high: 0, low: 0, close: 0 };
 
   return (
     <div style={{ display: "flex", minHeight: "100vh"}}>
       {/* Main content */}
       <div style={{ flex: 1, padding: 16 }}>
-        <Grid container alignItems="center" spacing={2}>
-          <Grid item xs={6}>
-            <Typography variant="h4" gutterBottom>
-              Ticker: {symbol}
-            </Typography>
-          </Grid>
-          <Grid item xs={6} textAlign="right">
-            <Button
-              variant="contained"
-              color={paused ? "success" : "error"}
-              onClick={() => setPaused(!paused)}
-            >
-              {paused ? "Start Mock" : "Pause Mock"}
-            </Button>
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2}>
+        <Grid container spacing={2} margin={2}>
+          <Toolbar
+            paused={paused}
+            onTogglePause={() => setPaused(!paused)}
+            chartType={chartType}
+            onChangeChartType={handleChartTypeChange}
+            symbol={symbol}
+          />
           {/* Chart */}
           <Grid item xs={12} md={6}>
-            <Chart width={800} height={400} data={candles} chartType="Bar"/>
+            <Chart width={800} height={400} data={seriesData[0]?.data ?? []} chartType={chartType}/>
           </Grid>
 
           {/* Side Info Panel */}
@@ -48,12 +58,18 @@ const TickerPage = () => {
             <Card>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
-                  Last Candle Info
+                  Last Data Info
                 </Typography>
-                <Typography>Open: {ohlc.open.toFixed(2)}</Typography>
-                <Typography>High: {ohlc.high.toFixed(2)}</Typography>
-                <Typography>Low: {ohlc.low.toFixed(2)}</Typography>
-                <Typography>Close: {ohlc.close.toFixed(2)}</Typography>
+                {ohlc ? (
+                  <>
+                    <Typography>Open: {ohlc.open.toFixed(2)}</Typography>
+                    <Typography>High: {ohlc.high.toFixed(2)}</Typography>
+                    <Typography>Low: {ohlc.low.toFixed(2)}</Typography>
+                    <Typography>Close: {ohlc.close.toFixed(2)}</Typography>
+                  </>
+                ) : (
+                  <Typography>No OHLC Data</Typography>
+                )}
               </CardContent>
             </Card>
           </Grid>
