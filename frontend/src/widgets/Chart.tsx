@@ -8,7 +8,6 @@ import {
   IChartApi,
   ISeriesApi,
 } from 'lightweight-charts';
-import { candleUpColor, candleDownColor, wickUpColor, wickDownColor } from '@/types/const';
 
 export interface CandleData {
   time: string;
@@ -22,8 +21,6 @@ export interface ChartWidgetProps {
   width?: number;
   height?: number;
   candles: CandleData[];
-  showSMA?: boolean;
-  smaPeriod?: number;
 }
 
 export const Chart: React.FC<ChartWidgetProps> = ({
@@ -40,42 +37,38 @@ export const Chart: React.FC<ChartWidgetProps> = ({
   useEffect(() => {
     if (!chartRef.current) return;
 
-    // Use theme.palette to get colors
-    const isDark = theme.palette.mode === 'dark';
-    const background = theme.palette.background.default;
-    const textColor = theme.palette.text.primary;
-    const gridColor = isDark ? '#2a2d3e' : '#ccc';
-    const upColor = isDark ? candleUpColor : '#2e7d32';
-    const downColor = isDark ? candleDownColor : '#c62828';
+    const chartColors = theme.chart; // Use theme chart colors
 
     const chart = createChart(chartRef.current, {
       width,
       height,
       layout: {
-        background: { type: ColorType.Solid, color: background },
-        textColor: textColor,
+        background: { type: ColorType.Solid, color: theme.palette.background.default },
+        textColor: chartColors.text,
       },
       grid: {
-        vertLines: { color: gridColor },
-        horzLines: { color: gridColor },
+        vertLines: { color: chartColors.grid },
+        horzLines: { color: chartColors.grid },
       },
       crosshair: { mode: 1 },
     });
     chartInstance.current = chart;
 
     const candleSeries = chart.addSeries(CandlestickSeries, {
-      upColor,
-      downColor,
+      upColor: chartColors.up,
+      downColor: chartColors.down,
       borderVisible: false,
-      wickUpColor,
-      wickDownColor,
+      wickUpColor: chartColors.wickUp,
+      wickDownColor: chartColors.wickDown,
     });
     candleSeriesRef.current = candleSeries;
     candleSeries.setData(candles);
 
-    // Resize
+    // Resize handler
     const handleResize = () => {
-      chart.applyOptions({ width: chartRef.current!.clientWidth });
+      if (chartRef.current) {
+        chart.applyOptions({ width: chartRef.current.clientWidth });
+      }
     };
     window.addEventListener('resize', handleResize);
 
@@ -83,9 +76,9 @@ export const Chart: React.FC<ChartWidgetProps> = ({
       window.removeEventListener('resize', handleResize);
       chart.remove();
     };
-  }, [candles, height, theme.palette, width]); // Rebuild chart when theme mode changes
+  }, [candles, height, theme, width]); // rebuild chart when theme changes
 
-  // Update series on data change
+  // Update series on new candle data
   useEffect(() => {
     candleSeriesRef.current?.setData(candles);
   }, [candles]);

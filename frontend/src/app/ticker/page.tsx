@@ -3,11 +3,11 @@
 import React, { useState } from "react";
 import { Grid, Card, CardContent, Typography, Button } from "@mui/material";
 import { Chart } from "@/widgets/Chart";
-import useDynamicCandles from "./dynamicCandles";
+import useMockCandles from "./mockCandles";
 
 const TickerPage = () => {
   const [paused, setPaused] = useState(false); // pause state
-  const candles = useDynamicCandles(paused);   // pass pause to hook
+  const candles = useMockCandles(paused);   // pass pause to hook
   const symbol = "Test";
   
   // Compute last candle info for side panel
