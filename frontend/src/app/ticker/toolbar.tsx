@@ -40,7 +40,7 @@ const Toolbar: React.FC<ChartToolbarProps> = ({
       {/* Symbol / Title */}
       {symbol && (
         <Grid item xs={6} sm={4}>
-          <Typography variant="h5">{symbol}</Typography>
+          <Typography variant="h5">Symbol: {symbol}</Typography>
         </Grid>
       )}
 

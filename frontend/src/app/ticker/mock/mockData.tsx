@@ -84,5 +84,6 @@ export default function useMockSeriesData(chartType: ChartType, paused = false) 
     return () => clearInterval(interval);
   }, [paused]);
 
-  return { data, resetSeriesData };
+  const symbol = "Mock Data";
+  return { symbol, data, resetSeriesData };
 }

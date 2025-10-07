@@ -7,10 +7,9 @@ import useMockSeriesData from "./mock/mockData";
 import Toolbar from "./toolbar";
 
 const TickerPage = () => {
-  const [paused, setPaused] = useState(false);
+  const [paused, setPaused] = useState(true);
   const [chartType, setChartType] = useState<ChartType>("Baseline");
-  const {data: seriesData, resetSeriesData } = useMockSeriesData(chartType, paused);
-  const symbol = "Test";
+  const {symbol, data, resetSeriesData } = useMockSeriesData(chartType, paused);
 
   const handleChartTypeChange = (newType: ChartType) => {
     setChartType(newType);
@@ -18,7 +17,7 @@ const TickerPage = () => {
   };
 
   // Compute last candle info for side panel
-  const lastPoint = seriesData[0]?.data?.at(-1);
+  const lastPoint = data[0]?.data?.at(-1);
   const ohlc =
     lastPoint && "open" in lastPoint
       ? {
@@ -49,8 +48,8 @@ const TickerPage = () => {
             symbol={symbol}
           />
           {/* Chart */}
-          <Grid item xs={12} md={6}>
-            <Chart width={800} height={400} data={seriesData[0]?.data ?? []} chartType={chartType}/>
+          <Grid item>
+            <Chart width={1000} height={600} data={data[0]?.data ?? []} chartType={chartType}/>
           </Grid>
 
           {/* Side Info Panel */}
@@ -58,7 +57,7 @@ const TickerPage = () => {
             <Card>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
-                  Last Data Info
+                  Last Point Info
                 </Typography>
                 {ohlc ? (
                   <>
