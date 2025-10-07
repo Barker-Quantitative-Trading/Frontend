@@ -15,6 +15,13 @@ declare module '@mui/material/styles' {
       up: string;
       down: string;
       text: string;
+
+      areaTop: string;
+      areaBottom: string;
+      baselineTop: string;
+      baselineBottom: string;
+      bar: string;
+      custom: string;
     };
   }
   interface ThemeOptions {
@@ -29,6 +36,13 @@ declare module '@mui/material/styles' {
       up?: string;
       down?: string;
       text?: string;
+
+      areaTop: string;
+      areaBottom: string;
+      baselineTop: string;
+      baselineBottom: string;
+      bar: string;
+      custom: string;
     };
   }
 }
@@ -38,6 +52,12 @@ const candleUpColor = '#4fff4f';
 const candleDownColor = '#ff4976';
 const lineColor = '#2962FF';
 const volumeColor = '#26a69a';
+const areaTopColor = 'rgba(41, 98, 255, 0.4)';
+const areaBottomColor = 'rgba(41, 98, 255, 0.05)';
+const baselineTopColor = '#4caf50';
+const baselineBottomColor = '#f44336';
+const barColor = '#1976d2';
+const customColor = '#ff9800';
 
 export const lightTheme = createTheme({
   palette: {
@@ -61,6 +81,13 @@ export const lightTheme = createTheme({
     up: '#2e7d32',
     down: '#c62828',
     text: '#171717',
+
+    areaTop: areaTopColor,
+    areaBottom: areaBottomColor,
+    baselineTop: baselineTopColor,
+    baselineBottom: baselineBottomColor,
+    bar: barColor,
+    custom: customColor,
   },
 });
 
@@ -86,5 +113,11 @@ export const darkTheme = createTheme({
     up: candleUpColor,
     down: candleDownColor,
     text: '#ffffff',
+    areaTop: areaTopColor,
+    areaBottom: areaBottomColor,
+    baselineTop: baselineTopColor,
+    baselineBottom: baselineBottomColor,
+    bar: barColor,
+    custom: customColor,
   },
 });
