@@ -3,11 +3,11 @@
 import React, { useState } from "react";
 import { Grid, Card, CardContent, Typography, Button } from "@mui/material";
 import { Chart } from "@/widgets/Chart";
-import useMockCandles from "./mockCandles";
+import useMockCandleData from "./mockCandleData";
 
 const TickerPage = () => {
   const [paused, setPaused] = useState(false); // pause state
-  const candles = useMockCandles(paused);   // pass pause to hook
+  const candles = useMockCandleData(paused);   // pass pause to hook
   const symbol = "Test";
   
   // Compute last candle info for side panel
@@ -32,7 +32,7 @@ const TickerPage = () => {
               color={paused ? "success" : "error"}
               onClick={() => setPaused(!paused)}
             >
-              {paused ? "Resume" : "Pause"}
+              {paused ? "Start Mock" : "Pause Mock"}
             </Button>
           </Grid>
         </Grid>
@@ -40,7 +40,7 @@ const TickerPage = () => {
         <Grid container spacing={2}>
           {/* Chart */}
           <Grid item xs={12} md={6}>
-            <Chart width={800} height={400} candles={candles} />
+            <Chart width={800} height={400} data={candles} chartType="Bar"/>
           </Grid>
 
           {/* Side Info Panel */}

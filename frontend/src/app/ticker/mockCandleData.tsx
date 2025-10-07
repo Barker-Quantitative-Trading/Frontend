@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { CandleData } from "@/widgets/Chart";
 
-export default function useMockCandles(paused = false) {
+export default function useMockData(paused = false) {
   // Start with some initial candles
   const [candles, setCandles] = useState<CandleData[]>([
     { time: '2023-10-01', open: 100, high: 110, low: 90, close: 105 },
@@ -48,6 +48,6 @@ export default function useMockCandles(paused = false) {
 
     return () => clearInterval(interval);
   }, [paused]);
-
+  
   return candles;
 }
