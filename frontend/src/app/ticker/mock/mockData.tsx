@@ -19,15 +19,14 @@ function generateInitialData(chartType: ChartType): SeriesData[] {
     const time = addDays(start, i);
 
     // small random walk step
-    const change = (Math.random() - 0.5) * 2; // ±1 unit per step
-    const base = lastBase + change;
+    const base = lastBase + (Math.random() * 10 - 5);
     lastBase = base;
 
     if (chartType === "Bar" || chartType === "Candlestick") {
-      const open = base + (Math.random() - 0.5) * 1; // small variation
-      const close = base + (Math.random() - 0.5) * 1;
-      const high = Math.max(open, close) + Math.random(); // small high spike
-      const low = Math.min(open, close) - Math.random(); // small low dip
+      const open = base + (Math.random());
+      const close = base + (Math.random() * 10 - 5);
+      const high = Math.max(open, close) + Math.random() * 5;
+      const low = Math.min(open, close) - Math.random() * 5;
 
       points.push({ time, open, high, low, close });
     } else {
