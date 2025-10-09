@@ -26,7 +26,7 @@ import {
   SeriesDataItemTypeMap,
   Time,
 } from 'lightweight-charts';
-import { Box, ToggleButtonGroup, ToggleButton } from "@mui/material";
+import { Box } from "@mui/material";
 
 export type ChartType = keyof SeriesDataItemTypeMap
 export interface SeriesData<T extends ChartType = ChartType> {
@@ -81,9 +81,6 @@ export const Chart: React.FC<ChartWidgetProps> = ({
   const chartInstance = useRef<IChartApi>(null);
   const mainSeriesRef = useRef<SeriesApiMap[ChartType] | null>(null);
   const indicatorRefs = useRef<Array<SeriesApiMap[ChartType]>>([]);
-
-  const [range, setRange] = useState("1M");
-  const [legend, setLegend] = useState("");
 
   const theme = useTheme();
 
@@ -236,12 +233,6 @@ export const Chart: React.FC<ChartWidgetProps> = ({
       });
     }
 
-    chart.subscribeCrosshairMove(param => {
-      if (!param || !param.time || !param.seriesData.size) return;
-      const time = param.seriesData.get(mainSeries)?.time;
-      setLegend(`Time: ${time}`);
-    });
-
     // Remove the TradingView logo
     const logo = document.getElementById("tv-attr-logo");
     if (logo) {
@@ -297,21 +288,7 @@ export const Chart: React.FC<ChartWidgetProps> = ({
   }
   return (
     <Box sx={{ position: "relative", width: "100%", height: 500 }}>
-      {/* Range Toolbar */}
-      {/* <ToggleButtonGroup
-        value={range}
-        exclusive
-        onChange={(_, val) => val && setRange(val)}
-        sx={{ position: "absolute", top: 8, right: 8, zIndex: 1 }}
-      >
-        {["1D", "1W", "1M", "1Y", "ALL"].map(r => (
-          <ToggleButton key={r} value={r}>{r}</ToggleButton>
-        ))}
-      </ToggleButtonGroup> */}
-
-      {/* Chart */}
-      <div ref={chartRef} className="w-full h-full" />
-
+      <div ref={chartRef} className="h-full" />
     </Box>
   );
 };
