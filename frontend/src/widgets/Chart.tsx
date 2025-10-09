@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef, useMemo, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import {
   createChart,
@@ -26,6 +26,7 @@ import {
   SeriesDataItemTypeMap,
   Time,
 } from 'lightweight-charts';
+import { Box, ToggleButtonGroup, ToggleButton } from "@mui/material";
 
 export type ChartType = keyof SeriesDataItemTypeMap
 export interface SeriesData<T extends ChartType = ChartType> {
@@ -80,6 +81,9 @@ export const Chart: React.FC<ChartWidgetProps> = ({
   const chartInstance = useRef<IChartApi>(null);
   const mainSeriesRef = useRef<SeriesApiMap[ChartType] | null>(null);
   const indicatorRefs = useRef<Array<SeriesApiMap[ChartType]>>([]);
+
+  const [range, setRange] = useState("1M");
+  const [legend, setLegend] = useState("");
 
   const theme = useTheme();
 
@@ -193,8 +197,9 @@ export const Chart: React.FC<ChartWidgetProps> = ({
 
   useEffect(() => {
     if (!chartRef.current) return;
-    
-    const chart = createChart(chartRef.current, {
+    const container = chartRef.current;
+
+    const chart = createChart(container, {
       width,
       height,
       autoSize: false,
@@ -231,22 +236,29 @@ export const Chart: React.FC<ChartWidgetProps> = ({
       });
     }
 
+    chart.subscribeCrosshairMove(param => {
+      if (!param || !param.time || !param.seriesData.size) return;
+      const time = param.seriesData.get(mainSeries)?.time;
+      setLegend(`Time: ${time}`);
+    });
+
     // Remove the TradingView logo
     const logo = document.getElementById("tv-attr-logo");
     if (logo) {
       logo.remove();
     }
     
-    // Resize handler
-    const handleResize = () => {
-      if (chartRef.current) {
-        chart.applyOptions({ width: chartRef.current.clientWidth });
+    // ResizeObserver for responsiveness
+    const resizeObserver = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        chart.applyOptions({ width, height });
       }
-    };
-    window.addEventListener('resize', handleResize);
+    });
+    resizeObserver.observe(container);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      resizeObserver.disconnect();
       chart.remove();
     };
   }, [chartType, data, indicators, width, height, theme, defaultSeriesOptions]);
@@ -256,6 +268,16 @@ export const Chart: React.FC<ChartWidgetProps> = ({
     mainSeriesRef.current.setData(data);
   }, [data, chartType]);
 
+  const addPriceAlert = (price: number) => {
+    mainSeriesRef.current?.createPriceLine({
+      price,
+      color: "#f44336",
+      lineWidth: 2,
+      lineStyle: LineStyle.Dotted,
+      axisLabelVisible: true,
+      title: "Alert",
+    });
+  };
 
   // Update indicators
   useEffect(() => {
@@ -268,5 +290,28 @@ export const Chart: React.FC<ChartWidgetProps> = ({
     });
   }, [indicators]);
 
-  return <div ref={chartRef} className="w-full h-full" />;
+  const val = false;
+  if (val)
+  {
+    return <div ref={chartRef} className="w-full h-full" />;
+  }
+  return (
+    <Box sx={{ position: "relative", width: "100%", height: 500 }}>
+      {/* Range Toolbar */}
+      {/* <ToggleButtonGroup
+        value={range}
+        exclusive
+        onChange={(_, val) => val && setRange(val)}
+        sx={{ position: "absolute", top: 8, right: 8, zIndex: 1 }}
+      >
+        {["1D", "1W", "1M", "1Y", "ALL"].map(r => (
+          <ToggleButton key={r} value={r}>{r}</ToggleButton>
+        ))}
+      </ToggleButtonGroup> */}
+
+      {/* Chart */}
+      <div ref={chartRef} className="w-full h-full" />
+
+    </Box>
+  );
 };
