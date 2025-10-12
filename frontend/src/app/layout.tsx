@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../styles/globals.css";
 
 import Client from "./client";
+import EmotionProvider from '../theme/EmotionProvider';
 
 export const metadata: Metadata = {
   title: "Backtesting Platform",
@@ -13,5 +14,13 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
-  return <Client>{children}</Client>;
+  return ( 
+    <html lang="en">
+      <body>
+        <EmotionProvider>
+          <Client>{children}</Client>
+        </EmotionProvider>
+      </body>
+    </html>
+  );
 }

@@ -69,7 +69,6 @@ export default function Sidebar({ darkMode, setDarkMode, items = defaultItems }:
 					})}
 				</List>
 				<Divider />
-				{/* Add footer or other sections here */}
 			</Box>
 		</Drawer>
 	);
