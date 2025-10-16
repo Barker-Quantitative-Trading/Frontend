@@ -259,17 +259,6 @@ export const Chart: React.FC<ChartWidgetProps> = ({
     mainSeriesRef.current.setData(data);
   }, [data, chartType]);
 
-  // const addPriceAlert = (price: number) => {
-  //   mainSeriesRef.current?.createPriceLine({
-  //     price,
-  //     color: "#f44336",
-  //     lineWidth: 2,
-  //     lineStyle: LineStyle.Dotted,
-  //     axisLabelVisible: true,
-  //     title: "Alert",
-  //   });
-  // };
-
   // Update indicators
   useEffect(() => {
     if (indicators && !indicatorRefs.current.length) return;
@@ -287,8 +276,6 @@ export const Chart: React.FC<ChartWidgetProps> = ({
     return <div ref={chartRef} className="w-full h-full" />;
   }
   return (
-    <Box sx={{ position: "relative", width: "100%", height: 500 }}>
-      <div ref={chartRef} className="h-full" />
-    </Box>
+      <div ref={chartRef} className="" />
   );
 };
