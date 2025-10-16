@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import { useTheme } from '@mui/material/styles';
 import {
   createChart,
@@ -241,7 +241,7 @@ export const Chart: React.FC<ChartWidgetProps> = ({
     
     // ResizeObserver for responsiveness
     const resizeObserver = new ResizeObserver(entries => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         const { width, height } = entry.contentRect;
         chart.applyOptions({ width, height });
       }
@@ -259,16 +259,16 @@ export const Chart: React.FC<ChartWidgetProps> = ({
     mainSeriesRef.current.setData(data);
   }, [data, chartType]);
 
-  const addPriceAlert = (price: number) => {
-    mainSeriesRef.current?.createPriceLine({
-      price,
-      color: "#f44336",
-      lineWidth: 2,
-      lineStyle: LineStyle.Dotted,
-      axisLabelVisible: true,
-      title: "Alert",
-    });
-  };
+  // const addPriceAlert = (price: number) => {
+  //   mainSeriesRef.current?.createPriceLine({
+  //     price,
+  //     color: "#f44336",
+  //     lineWidth: 2,
+  //     lineStyle: LineStyle.Dotted,
+  //     axisLabelVisible: true,
+  //     title: "Alert",
+  //   });
+  // };
 
   // Update indicators
   useEffect(() => {
