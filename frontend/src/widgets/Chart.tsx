@@ -26,7 +26,6 @@ import {
   SeriesDataItemTypeMap,
   Time,
 } from 'lightweight-charts';
-import { Box } from "@mui/material";
 
 export type ChartType = keyof SeriesDataItemTypeMap
 export interface SeriesData<T extends ChartType = ChartType> {

@@ -74,7 +74,7 @@ If you do not know how to clone yet please follow the command below or use the l
 node -v
 npm -v
 ```
-3. Install yarn
+3. Install yarn (Recommended to also install eslint and prettier eslint)
 ```bash
 npm install --global yarn
 ```
