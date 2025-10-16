@@ -21,7 +21,7 @@ interface IPOWidgetProps {
   empty: string;
 }
 
-const FMP_API_KEY = process.env.FMP_API_KEY;
+const FMP_API_KEY = process.env.NEXT_PUBLIC_FMP_API_KEY;
 
 const IPOWidget: React.FC<IPOWidgetProps> = () => {
   const [loading, setLoading] = useState(true);
@@ -46,7 +46,7 @@ const IPOWidget: React.FC<IPOWidgetProps> = () => {
       // Fetch IPOs
       const ipoRequests = dates.map(date =>
         axios.get(
-          `https://financialmodelingprep.com/api/v3/ipo-calendar?from=${date}&to=${date}&apikey=${FMP_API_KEY}`
+          `https://financialmodelingprep.com/stable/ipos-calendar?from=${date}&to=${date}&apikey=${FMP_API_KEY}`
         )
       );
       const ipoResponses = await Promise.all(ipoRequests);

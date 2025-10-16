@@ -20,7 +20,7 @@ interface Earnings {
 interface Props {
   empty: string;
 }
-const FMP_API_KEY = process.env.FMP_API_KEY;
+const FMP_API_KEY = process.env.NEXT_PUBLIC_FMP_API_KEY;
 
 const EarningsWidget: React.FC<Props> = () => {
   const [loading, setLoading] = useState(true);
@@ -45,7 +45,7 @@ const EarningsWidget: React.FC<Props> = () => {
       // Fetch Earnings
       const earningsRequests = dates.map(date =>
         axios.get(
-          `https://financialmodelingprep.com/api/v3/earning_calendar?from=${date}&to=${date}&apikey=${FMP_API_KEY}`
+          `https://financialmodelingprep.com/stable/earnings-calendar?from=${date}&to=${date}&apikey=${FMP_API_KEY}`
         )
       );
       const earningsResponses = await Promise.all(earningsRequests);
