@@ -17,11 +17,7 @@ interface NewsArticle {
   source: string;
 }
 
-interface NewsWidgetProps {
-  empty: string;
-}
-
-const NewsWidget: React.FC<NewsWidgetProps> = () => {
+const NewsWidget: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [news, setNews] = useState<NewsArticle[]>([]);
 
@@ -67,8 +63,8 @@ const NewsWidget: React.FC<NewsWidgetProps> = () => {
                 <Typography>No news available</Typography>
               ) : (
                 <div style={{ maxHeight: 500, overflowY: "auto" }}>
-                  {news.map((article, idx) => (
-                    <Typography key={idx} sx={{ mb: 1 }}>
+                  {news.map((article, index) => (
+                    <Typography key={index} sx={{ mb: 1 }}>
                       <a
                         href={article.url}
                         target="_blank"

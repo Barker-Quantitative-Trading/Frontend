@@ -11,8 +11,8 @@ const Dashboard: React.FC = () => {
   return (
     <div style={{ display: "flex", minHeight: "100vh", padding: 16 }}>
       <Grid container spacing={3}>
-        <NewsWidget empty=""></NewsWidget>
-        <EarningsWidget empty=""></EarningsWidget>
+        <NewsWidget></NewsWidget>
+        <EarningsWidget></EarningsWidget>
       </Grid>
     </div>
   );

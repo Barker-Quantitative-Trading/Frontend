@@ -16,11 +16,7 @@ interface Earnings {
   date: string;
 }
 
-interface EarningsWidgetProps {
-  empty: string;
-}
-
-const EarningsWidget: React.FC<EarningsWidgetProps> = () => {
+const EarningsWidget: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [earnings, setEarnings] = useState<Earnings[]>([]);
 
