@@ -24,8 +24,7 @@ export async function GET() {
     );
 
     if (!res.ok) {
-      console.error("Error fetching earnings:", res.status, res.statusText);
-      return [];
+      return NextResponse.json({ error: "Failed to fetch earnings" }, { status: res.status });
     }
 
     const allData = await res.json();
