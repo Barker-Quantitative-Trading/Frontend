@@ -41,21 +41,11 @@ const IPOWidget: React.FC<IPOWidgetProps> = () => {
   const fetchIPOs = async () => {
     setLoading(true);
     try {
-      const dates = getNext3Days();
-
-      // Fetch IPOs
-      const ipoRequests = dates.map(date =>
-        axios.get(
-          `https://financialmodelingprep.com/stable/ipos-calendar?from=${date}&to=${date}&apikey=${FMP_API_KEY}`
-        )
-      );
-      const ipoResponses = await Promise.all(ipoRequests);
-      const upcomingIPOs = ipoResponses.flatMap(res => res.data);
-      setIpos(upcomingIPOs);
-
-      setLoading(false);
+      const res = await axios.get("/api/ipo");
+      setIpos(res.data);
     } catch (err) {
       console.error("Error fetching IPOs:", err);
+    } finally {
       setLoading(false);
     }
   };

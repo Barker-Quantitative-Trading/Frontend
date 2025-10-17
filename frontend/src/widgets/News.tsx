@@ -21,25 +21,19 @@ interface NewsWidgetProps {
   empty: string;
 }
 
-const FINNHUB_API_KEY = process.env.NEXT_PUBLIC_FINNHUB_API_KEY;
-
 const NewsWidget: React.FC<NewsWidgetProps> = () => {
     const [loading, setLoading] = useState(true);
     const [news, setNews] = useState<NewsArticle[]>([]);
 
     const fetchNews = async () => {
-        try {
-        // Fetch Market News
-        const newsRes = await axios.get(
-            `https://finnhub.io/api/v1/news?category=general&token=${FINNHUB_API_KEY}`
-        );
-        setNews(newsRes.data.slice(0, 10)); // Top 10 news
-
-        setLoading(false);
-        } catch (err) {
+      try {
+        const res = await axios.get("/api/news");
+        setNews(res.data);
+      } catch (err) {
         console.error("Error fetching news:", err);
+      } finally {
         setLoading(false);
-        }
+      }
     };
 
     useEffect(() => {
