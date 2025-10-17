@@ -1,30 +1,35 @@
 import { NextResponse } from "next/server";
 
-const FMP_API_KEY = process.env.FMP_API_KEY; // no NEXT_PUBLIC prefix
+const FMP_API_KEY = process.env.FMP_API_KEY;
+const BASE_URL = "https://financialmodelingprep.com/stable";
 
 export async function GET() {
   try {
-    // Get today + next 2 days
     const today = new Date();
-    const dates: string[] = [];
-    for (let i = 0; i < 3; i++) {
-      const d = new Date(today);
-      d.setDate(today.getDate() + i);
-      dates.push(d.toISOString().split("T")[0]);
-    }
+    const thirtyDaysLater = new Date();
+    thirtyDaysLater.setDate(today.getDate() + 30);
 
-    // Fetch earnings for each day
-    const responses = await Promise.all(
-      dates.map((date) =>
-        fetch(
-          `https://financialmodelingprep.com/stable/earnings-calendar?from=${date}&to=${date}&apikey=${FMP_API_KEY}`
-        )
-      )
+    // Format dates as YYYY-MM-DD
+    const formatDate = (d: Date) =>
+      `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}-${d.getDate()
+        .toString()
+        .padStart(2, "0")}`;
+
+    const from = formatDate(today);
+    const to = formatDate(thirtyDaysLater);
+
+    // Fetch all earnings in a single request
+    const res = await fetch(
+      `${BASE_URL}/earnings-calendar?from=${from}&to=${to}&apikey=${FMP_API_KEY}`
     );
 
-    const allData = (await Promise.all(responses.map((r) => r.json()))).flat();
+    if (!res.ok) {
+      console.error("Error fetching earnings:", res.status, res.statusText);
+      return [];
+    }
 
-    // Limit payload size if you want
+    const allData = await res.json();
+
     const topEarnings = allData.slice(0, 20);
 
     return NextResponse.json(topEarnings);

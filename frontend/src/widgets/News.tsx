@@ -40,48 +40,50 @@ const NewsWidget: React.FC<NewsWidgetProps> = () => {
       fetchNews();
     }, []);
 
-    if (loading) {
-        return (
-        <Grid container justifyContent="center" style={{ padding: 50 }}>
-            <CircularProgress />
-        </Grid>
-        );
-    }
   return (
     <Grid item xs={12} md={4}>
       <Card>
         <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Market News
-            </Typography>
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={fetchNews}
-              sx={{ mb: 1 }}
-            >
-              Refresh
-            </Button>
-            <Divider sx={{ mb: 1 }} />
-            {news.length === 0 ? (
-            <Typography>No news available</Typography>
-            ) : (
-            <div style={{ maxHeight: 400, overflowY: "auto" }}>
-                {news.map((article, idx) => (
-                <Typography key={idx} sx={{ mb: 1 }}>
-                    <a
-                    href={article.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ textDecoration: "none", color: "#1976d2" }}
-                    >
-                    {article.headline}
-                    </a>{" "}
-                    — <strong>{article.source}</strong>
-                </Typography>
-                ))}
-            </div>
-            )}
+          <Typography variant="h6" gutterBottom>
+            Market News
+          </Typography>
+
+          {loading ? (
+            <Grid container justifyContent="center" style={{ padding: 50 }}>
+              <CircularProgress />
+            </Grid>
+          ) : (
+            <>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={fetchNews}
+                sx={{ mb: 1 }}
+              >
+                Refresh
+              </Button>
+              <Divider sx={{ mb: 1 }} />
+              {news.length === 0 ? (
+                <Typography>No news available</Typography>
+              ) : (
+                <div style={{ maxHeight: 500, overflowY: "auto" }}>
+                  {news.map((article, idx) => (
+                    <Typography key={idx} sx={{ mb: 1 }}>
+                      <a
+                        href={article.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "none", color: "#1976d2" }}
+                      >
+                        {article.headline}
+                      </a>{" "}
+                      — <strong>{article.source}</strong>
+                    </Typography>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
         </CardContent>
       </Card>
     </Grid>

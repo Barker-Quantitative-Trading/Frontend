@@ -14,7 +14,6 @@ import {
 interface Earnings {
   symbol: string;
   date: string;
-  eps?: number;
 }
 
 interface EarningsWidgetProps {
@@ -29,7 +28,7 @@ const EarningsWidget: React.FC<EarningsWidgetProps> = () => {
     setLoading(true);
     try {
       const res = await axios.get("/api/earnings");
-      setEarnings(res.data);
+      setEarnings([...res.data].reverse());
     } catch (err) {
       console.error("Error fetching earnings:", err);
     } finally {
@@ -41,14 +40,6 @@ const EarningsWidget: React.FC<EarningsWidgetProps> = () => {
     fetchEarnings();
   }, []);
 
-  if (loading) {
-    return (
-      <Grid container justifyContent="center" style={{ padding: 50 }}>
-        <CircularProgress />
-      </Grid>
-    );
-  }
-
   return (
     <Grid item xs={12} md={4}>
       <Card>
@@ -56,23 +47,34 @@ const EarningsWidget: React.FC<EarningsWidgetProps> = () => {
           <Typography variant="h6" gutterBottom>
             Upcoming Earnings
           </Typography>
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={fetchEarnings}
-            sx={{ mb: 1 }}
-          >
-            Refresh
-        </Button>
-          <Divider sx={{ mb: 1 }} />
-          {earnings.length === 0 ? (
-            <Typography>No earnings in next 3 days</Typography>
+
+          {loading ? (
+            <Grid container justifyContent="center" style={{ padding: 50 }}>
+              <CircularProgress />
+            </Grid>
           ) : (
-            earnings.map((earn, idx) => (
-              <Typography key={idx}>
-                {earn.symbol} — {earn.date} — EPS: {earn.eps ?? "N/A"}
-              </Typography>
-            ))
+            <>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={fetchEarnings}
+                sx={{ mb: 1 }}
+              >
+                Refresh
+              </Button>
+              <Divider sx={{ mb: 1 }} />
+              {earnings.length === 0 ? (
+                <Typography>No earnings in next 3 days</Typography>
+              ) : (
+                <div style={{ maxHeight: 500, overflowY: "auto" }}>
+                  {earnings.map((earn, idx) => (
+                    <Typography key={idx}>
+                      {earn.symbol} — {earn.date}
+                    </Typography>
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </CardContent>
       </Card>
