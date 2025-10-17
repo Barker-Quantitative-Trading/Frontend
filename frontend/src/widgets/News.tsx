@@ -9,24 +9,26 @@ import {
   Divider,
   CircularProgress,
   Button,
+  List,
+  ListItem,
+  Chip,
+  Stack,
 } from "@mui/material";
 
-interface NewsArticle {
-  headline: string;
-  url: string;
-  source: string;
-}
+import { NewsArticle } from "@/types/news";
 
 const NewsWidget: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [news, setNews] = useState<NewsArticle[]>([]);
 
     const fetchNews = async () => {
+      setLoading(true);
       try {
         const res = await axios.get("/api/news");
-        setNews(res.data);
+        setNews(res.data ?? []);
       } catch (err) {
         console.error("Error fetching news:", err);
+        setNews([]);
       } finally {
         setLoading(false);
       }
@@ -38,10 +40,10 @@ const NewsWidget: React.FC = () => {
 
   return (
     <Grid item xs={12} md={4}>
-      <Card>
+      <Card sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Market News
+            General Market News
           </Typography>
 
           {loading ? (
@@ -54,6 +56,7 @@ const NewsWidget: React.FC = () => {
                 variant="outlined"
                 size="small"
                 onClick={fetchNews}
+                disabled={loading}
                 sx={{ mb: 1 }}
               >
                 Refresh
@@ -63,19 +66,43 @@ const NewsWidget: React.FC = () => {
                 <Typography>No news available</Typography>
               ) : (
                 <div style={{ maxHeight: 500, overflowY: "auto" }}>
-                  {news.map((article, index) => (
-                    <Typography key={index} sx={{ mb: 1 }}>
-                      <a
-                        href={article.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ textDecoration: "none", color: "#1976d2" }}
-                      >
-                        {article.headline}
-                      </a>{" "}
-                      — <strong>{article.source}</strong>
-                    </Typography>
-                  ))}
+                  <List disablePadding>
+                    {news.map((article, idx) => (
+                      <React.Fragment key={idx}>
+                        <ListItem
+                          sx={{
+                            flexDirection: "column",
+                            alignItems: "flex-start",
+                            py: 1,
+                          }}
+                        >
+                          <Stack
+                            direction="row"
+                            spacing={1}
+                            alignItems="center"
+                            flexWrap="wrap"
+                          >
+                            <a
+                              href={article.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ textDecoration: "none" }}
+                            >
+                              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                                {article.headline}
+                              </Typography>
+                            </a>
+                          </Stack>
+                          <Chip
+                            label={article.source}
+                            size="small"
+                            color="default"
+                          />
+                        </ListItem>
+                        {idx < news.length - 1 && <Divider component="li" />}
+                      </React.Fragment>
+                    ))}
+                  </List>
                 </div>
               )}
             </>
