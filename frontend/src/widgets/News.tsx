@@ -17,21 +17,25 @@ import {
 
 import { NewsArticle } from "@/types/news";
 
+export async function getNews(): Promise<NewsArticle[]> {
+  try {
+    const res = await axios.get("/api/news");
+    return res.data ?? [];
+  } catch (err) {
+    console.error("Error fetching news:", err);
+    return [];
+  }
+}
+
 const NewsWidget: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [news, setNews] = useState<NewsArticle[]>([]);
 
     const fetchNews = async () => {
       setLoading(true);
-      try {
-        const res = await axios.get("/api/news");
-        setNews(res.data ?? []);
-      } catch (err) {
-        console.error("Error fetching news:", err);
-        setNews([]);
-      } finally {
-        setLoading(false);
-      }
+      const data = await getNews();
+      setNews(data);
+      setLoading(false);
     };
 
     useEffect(() => {

@@ -1,7 +1,7 @@
 "use client";
 
 import NewsWidget from "@/widgets/News";
-import EarningsWidget from "@/widgets/Earnings";
+import EarningsWidget from "@/widgets/earnings/Earnings";
 import React from "react";
 import {
   Grid,

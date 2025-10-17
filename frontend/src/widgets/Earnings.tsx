@@ -16,20 +16,25 @@ import {
   ListItem,
 } from "@mui/material";
 
+export async function getEarnings(): Promise<Earnings[]> {
+  try {
+    const res = await axios.get("/api/earnings");
+    return res.data ?? [];
+  } catch (err) {
+    console.error("Error fetching earnings:", err);
+    return [];
+  }
+}
+
 const EarningsWidget: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [earnings, setEarnings] = useState<Earnings[]>([]);
 
   const fetchEarnings = async () => {
     setLoading(true);
-    try {
-      const res = await axios.get("/api/earnings");
-      setEarnings(res.data);
-    } catch (err) {
-      console.error("Error fetching earnings:", err);
-    } finally {
-      setLoading(false);
-    }
+    const data = await getEarnings();
+    setEarnings(data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -41,7 +46,7 @@ const EarningsWidget: React.FC = () => {
       <Card sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Upcoming Earnings (Currently Limited)
+            Upcoming Earnings (Limited to Big Names)
           </Typography>
 
           {loading ? (
