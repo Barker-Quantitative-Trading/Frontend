@@ -25,17 +25,6 @@ const EarningsWidget: React.FC<EarningsWidgetProps> = () => {
   const [loading, setLoading] = useState(true);
   const [earnings, setEarnings] = useState<Earnings[]>([]);
 
-  // const getNext3Days = () => {
-  //   const today = new Date();
-  //   const dates: string[] = [];
-  //   for (let i = 0; i < 3; i++) {
-  //     const d = new Date(today);
-  //     d.setDate(today.getDate() + i);
-  //     dates.push(d.toISOString().split("T")[0]);
-  //   }
-  //   return dates;
-  // };
-
   const fetchEarnings = async () => {
     setLoading(true);
     try {

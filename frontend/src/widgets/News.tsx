@@ -52,7 +52,7 @@ const NewsWidget: React.FC<NewsWidgetProps> = () => {
       <Card>
         <CardContent>
             <Typography variant="h6" gutterBottom>
-            Market News
+              Market News
             </Typography>
             <Button
               variant="outlined"
